@@ -1,4 +1,4 @@
-# Projeto Final - Curso a Distância: (750) Android – Autenticação Firebase
+# Projeto Final - Curso a Distância: (750 e 751) Android – Autenticação Firebase
 
 ## Descrição
 
