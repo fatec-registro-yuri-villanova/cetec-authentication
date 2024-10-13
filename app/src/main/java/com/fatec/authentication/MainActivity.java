@@ -19,12 +19,10 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.Random;
-
 public class MainActivity extends AppCompatActivity {
 
     Button createUser;
-    EditText emailInput,passwordInput;
+    EditText emailInput, passwordInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,44 +41,60 @@ public class MainActivity extends AppCompatActivity {
         emailInput = findViewById(R.id.email_input);
         passwordInput = findViewById(R.id.password_input);
 
-        int seed = new Random().nextInt();
-        String email = "email"+seed+"@gmail.com";
-        String password = "123456";
-
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-                email,
-                password
-        ).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                Context context = MainActivity.this;
-                int sizeMessage = Toast.LENGTH_SHORT;
-                String tag = "authentication-teste";
-                String messageSuccess = "Cadastro efetuado com sucesso!!";
-                String messageFail = "Erro!!";
-
-                if (task.isSuccessful()) {
-                    Toast.makeText(
-                            context,
-                            messageSuccess,
-                            sizeMessage
-                    ).show();
-                    Log.i(tag, messageSuccess);
-                } else {
-                    Toast.makeText(
-                            context,
-                            "Erro!!",
-                            sizeMessage
-                    ).show();
-                    Log.i(tag, messageFail);
-                }
-            }
-        });
-
         createUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("teste"," email: "+email+"\n password:"+password);
+                String email = emailInput.getText().toString();
+                String password = passwordInput.getText().toString();
+                String messageErrorEmail = "Por favor, insira um endereço de e-mail válido.";
+                String messageErrorPassword = "A senha deve ter pelo menos 6 caracteres.";
+
+                // Validação dos campos de entrada
+                if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(MainActivity.this, messageErrorEmail, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (password.isEmpty() || password.length() < 6) {
+                    Toast.makeText(MainActivity.this, messageErrorPassword, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Criação do usuário
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                Context context = MainActivity.this;
+                                int sizeMessage = Toast.LENGTH_SHORT;
+                                String tag = "authentication-teste";
+                                String messageSuccess = "Cadastro efetuado com sucesso!!";
+                                String messageFail = "Erro ao criar usuário:";
+                                String errorForExistingUser = "The email address is already in use by another account.";
+                                String messageErrorForExistingUser = "Um usuário com esse endereço de e-mail já existe.";
+                                String othersErrors = "Erro ao criar usuário. Por favor, tente novamente.";
+
+
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(
+                                            context,
+                                            messageSuccess,
+                                            sizeMessage
+                                    ).show();
+                                    Log.i(tag, messageSuccess);
+                                } else {
+                                    // Tratamento de erros específicos
+                                    if (task.getException() != null) {
+                                        Log.w(tag, messageFail, task.getException());
+                                        if (task.getException().getMessage().contains(errorForExistingUser)) {
+                                            Toast.makeText(context, messageErrorForExistingUser, sizeMessage).show();
+                                        } else {
+                                            Toast.makeText(context, othersErrors, sizeMessage).show();
+                                        }
+                                    }
+                                }
+                            }
+                        });
             }
         });
     }
