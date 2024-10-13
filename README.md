@@ -13,7 +13,7 @@ Este repositório inclui os seguintes arquivos:
 * **Código fonte:** Código da aplicação Android, incluindo as classes, layouts, recursos e outras partes do projeto.
 * **Recursos:** Arquivos de imagens, layouts, strings e outros recursos utilizados pela aplicação.
 
-## Prints:
+## Curso 750, prints:
 | Mensagem | Notificação |
 |---|---|
 | <img src="img/print_msg_sucesso.jpg" height="500"> | <img src="img/print_notificacao_sucesso.jpg" height="500"> |
@@ -22,6 +22,9 @@ Este repositório inclui os seguintes arquivos:
 
 * **Firebase:** 
 * <img src="/img/print_firebase.jpg"  height="700">
+
+## Curso 751, print:
+* <img src="img/firebase_list.jpg"  height="600">
 
 ## Observações
 
