@@ -47,35 +47,35 @@ public class MainActivity extends AppCompatActivity {
         String email = "email"+seed+"@gmail.com";
         String password = "123456";
 
-//        FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-//                email,
-//                password
-//        ).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//            @Override
-//            public void onComplete(@NonNull Task<AuthResult> task) {
-//                Context context = MainActivity.this;
-//                int sizeMessage = Toast.LENGTH_SHORT;
-//                String tag = "MainActivity";
-//                String messageSuccess = "Cadastro efetuado com sucesso!!";
-//                String messageFail = "Erro!!";
-//
-//                if (task.isSuccessful()) {
-//                    Toast.makeText(
-//                            context,
-//                            messageSuccess,
-//                            sizeMessage
-//                    ).show();
-//                    Log.i(tag, messageSuccess);
-//                } else {
-//                    Toast.makeText(
-//                            context,
-//                            "Erro!!",
-//                            sizeMessage
-//                    ).show();
-//                    Log.i(tag, messageFail);
-//                }
-//            }
-//        });
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(
+                email,
+                password
+        ).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                Context context = MainActivity.this;
+                int sizeMessage = Toast.LENGTH_SHORT;
+                String tag = "authentication-teste";
+                String messageSuccess = "Cadastro efetuado com sucesso!!";
+                String messageFail = "Erro!!";
+
+                if (task.isSuccessful()) {
+                    Toast.makeText(
+                            context,
+                            messageSuccess,
+                            sizeMessage
+                    ).show();
+                    Log.i(tag, messageSuccess);
+                } else {
+                    Toast.makeText(
+                            context,
+                            "Erro!!",
+                            sizeMessage
+                    ).show();
+                    Log.i(tag, messageFail);
+                }
+            }
+        });
 
         createUser.setOnClickListener(new View.OnClickListener() {
             @Override
