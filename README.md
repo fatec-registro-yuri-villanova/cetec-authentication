@@ -12,6 +12,9 @@ Este repositório inclui os seguintes arquivos:
 
 * **Código fonte:** Código da aplicação Android, incluindo as classes, layouts, recursos e outras partes do projeto.
 * **Recursos:** Arquivos de imagens, layouts, strings e outros recursos utilizados pela aplicação.
+* Prints:
+* <img src="img/print_msg_sucesso.jpg">
+* <img src="/img/print_firebase.jpg">
 
 ## Observações
 
