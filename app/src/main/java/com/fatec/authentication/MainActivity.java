@@ -1,6 +1,10 @@
 package com.fatec.authentication;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +14,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -19,10 +24,15 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     Button createUser;
     EditText emailInput, passwordInput;
+
+    String PRIMARY_CHANNEL_ID = "primary_channel_id";
+    NotificationManager notificationManager = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         createUser = findViewById(R.id.btn_create_user);
         emailInput = findViewById(R.id.email_input);
         passwordInput = findViewById(R.id.password_input);
+
+        createChannel();
 
         createUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,14 +94,17 @@ public class MainActivity extends AppCompatActivity {
                                             sizeMessage
                                     ).show();
                                     Log.i(tag, messageSuccess);
+                                    sendNotification("Cadastrado com Sucesso",messageSuccess);
                                 } else {
                                     // Tratamento de erros específicos
                                     if (task.getException() != null) {
                                         Log.w(tag, messageFail, task.getException());
                                         if (task.getException().getMessage().contains(errorForExistingUser)) {
                                             Toast.makeText(context, messageErrorForExistingUser, sizeMessage).show();
+                                            sendNotification("Cadastrado com Erro",messageErrorForExistingUser);
                                         } else {
                                             Toast.makeText(context, othersErrors, sizeMessage).show();
+                                            sendNotification("Cadastrado com Erro",othersErrors);
                                         }
                                     }
                                 }
@@ -97,5 +112,43 @@ public class MainActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+    private void createChannel() {
+        notificationManager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(
+                    PRIMARY_CHANNEL_ID,
+                    "notification_channel_name",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.enableVibration(true);
+            notificationChannel.enableVibration(true);
+            notificationChannel.setDescription("setDescription");
+
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+    }
+
+    private void sendNotification(String notificationName, String contentText) {
+        NotificationCompat.Builder notificationBuilder = getNotificationBuilder(notificationName,contentText);
+
+        //Delivery Notification
+        Random notificationId = new Random();
+        notificationManager.notify(notificationId.nextInt(1000), notificationBuilder.build());
+    }
+
+    private NotificationCompat.Builder getNotificationBuilder(String notificationName, String contentText) {
+        Log.i("SEND_NOTIFICATION", "getNotificationBuilder");
+        return new NotificationCompat.Builder(getApplicationContext(), PRIMARY_CHANNEL_ID)
+                .setSmallIcon(android.R.drawable.stat_notify_chat)
+                .setContentTitle(notificationName)
+                .setContentText(contentText)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
     }
 }
