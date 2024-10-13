@@ -20,8 +20,8 @@ Este repositório inclui os seguintes arquivos:
 | Mensagem de Erro | Notificação de Erro |
 | <img src="img/print_msg_error.jpg" height="500"> | <img src="img/print_notificacao_error.jpg" height="500"> |
 
-Firebase
-<img src="/img/print_firebase.jpg"  height="700">
+* **Firebase:** 
+* <img src="/img/print_firebase.jpg"  height="700">
 
 ## Observações
 
