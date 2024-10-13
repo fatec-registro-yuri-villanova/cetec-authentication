@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "286199302716",
+    "project_id": "cetec-292df",
+    "storage_bucket": "cetec-292df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286199302716:android:8def316cd7648abf6fd139",
+        "android_client_info": {
+          "package_name": "com.fatec.authentication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFgul_zCmwvjkX6S7MiW3BxQT4SDc-pgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
